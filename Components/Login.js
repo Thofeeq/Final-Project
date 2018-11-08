@@ -31,7 +31,7 @@ export default class Login extends React.Component {
       <KeyboardAvoidingView
         behavior="padding"
         style={styles.container}
-        keyboardVerticalOffset={250}
+        keyboardVerticalOffset={345}
       >
         <View style={styles.logoContainer}>
           <Image
@@ -71,14 +71,14 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   logo: {
-    height: 256,
-    width: 256,
+    height: 200,
+    width: 200,
     borderRadius: 65
   },
   title: {
     color: "#fff",
     marginTop: 10,
-    paddingTop: 20,
+    paddingTop: 30,
     paddingLeft: 160,
     letterSpacing: 1,
     fontSize: 25,

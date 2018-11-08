@@ -5,7 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  returnKeyType
+  returnKeyType,
+  KeyboardAvoidingView
 } from "react-native";
 import firebase from "../Firebase";
 
@@ -59,7 +60,7 @@ export default class LoginForm extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <Text style={{ color: "red", textAlign: "center" }}>
           {this.state.Error}
         </Text>
@@ -95,7 +96,7 @@ export default class LoginForm extends Component {
         >
           <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

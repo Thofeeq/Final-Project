@@ -1,9 +1,21 @@
 import React from "react";
-import { ScrollView, StyleSheet,Dimensions, Text, View, Image, StatusBar, Button, TextInput, KeyboardAvoidingView, Container, TouchableOpacity } from "react-native"; 
-import { ImagePicker } from 'expo';
+import {
+  ScrollView,
+  StyleSheet,
+  Dimensions,
+  Text,
+  View,
+  Image,
+  StatusBar,
+  TextInput,
+  KeyboardAvoidingView,
+  Container,
+  TouchableOpacity
+} from "react-native";
+import { ImagePicker } from "expo";
 import ScreenHeader from "../Components/ScreenHeader";
 import firebase from "../Firebase.js";
-
+import { Button } from "react-native-elements";
 export default class EditSpot extends React.Component {
   constructor(props) {
     super(props);
@@ -14,11 +26,11 @@ export default class EditSpot extends React.Component {
       user: "",
       description: "",
       price: 0,
-      latitude: '',
-      longitude: '',
+      latitude: "",
+      longitude: "",
       is_rented: false,
-      current_spot: '',
-      image: ''
+      current_spot: "",
+      image: ""
     };
 
     this.updateSpot = this.updateSpot.bind(this);
@@ -31,18 +43,17 @@ export default class EditSpot extends React.Component {
 
   _isMounted = false;
 
-  pickImage(){
-
+  pickImage() {
     _pickImage = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [4, 3]
       });
-  
+
       console.log(result);
-  
+
       if (!result.cancelled) {
-        this.setState({image:result.uri})
+        this.setState({ image: result.uri });
       }
     };
 
@@ -52,48 +63,53 @@ export default class EditSpot extends React.Component {
   getSpot() {
     let spot = {
       description: this.state.description,
-      price: this.state.price,
+      price: this.state.price
     };
     return spot;
   }
 
   deleteSpot() {
-    firebase.database().ref(`spots/${this.props.navigation.state.params.spot.key}`).remove()
-    this.props.navigation.push('MySpots')
+    firebase
+      .database()
+      .ref(`spots/${this.props.navigation.state.params.spot.key}`)
+      .remove();
+    this.props.navigation.push("MySpots");
   }
 
   toggleRented() {
     let bool;
-    let spot_bool = firebase.database().ref(`spots/${this.props.navigation.state.params.spot.key}/is_rented`);
-    spot_bool.on(('value'), (data) => {
+    let spot_bool = firebase
+      .database()
+      .ref(`spots/${this.props.navigation.state.params.spot.key}/is_rented`);
+    spot_bool.on("value", data => {
       bool = data.val();
-    })
+    });
 
     if (bool === true) {
       spot_bool.set(false);
     } else {
-    spot_bool.set(true);
+      spot_bool.set(true);
     }
   }
-  
+
   async uploadImageAsync(uri, spot_id) {
-    console.log("URI", uri)
+    console.log("URI", uri);
     const response = await fetch(uri);
     const blob = await response.blob();
     const ref = firebase
       .storage()
       .ref()
       .child(`lot_images/${current_spot.owner}/${current_spot.key}/lot.jpg`);
-    await ref.put(blob).then(()=>{
-      console.log('in the async action')
+    await ref.put(blob).then(() => {
+      console.log("in the async action");
       self.props.navigation.navigate("MySpots");
     });
   }
 
   updateSpot(spot) {
     const current_spot = this.props.navigation.state.params.spot;
-    
-    let the_spot = firebase.database().ref(`spots/${current_spot.key}`)
+
+    let the_spot = firebase.database().ref(`spots/${current_spot.key}`);
     // find the spot in database
 
     the_spot
@@ -105,8 +121,8 @@ export default class EditSpot extends React.Component {
         //success callback
 
         this.uploadImageAsync(this.state.image, current_spot.key);
-        
-        this.props.navigation.push('MySpots', {
+
+        this.props.navigation.push("MySpots", {
           onNavigateBack: this.receivedUpdate
         });
       })
@@ -119,17 +135,15 @@ export default class EditSpot extends React.Component {
   componentDidMount() {
     this._isMounted = true;
     const spot_id = this.props.navigation.state.params.spot.key;
-    let spot = firebase.database().ref(`spots/${spot_id}`)
+    let spot = firebase.database().ref(`spots/${spot_id}`);
 
-    spot.once('value').then((data) => {
-      
+    spot.once("value").then(data => {
       this.setState({
-        
         description: data.val().description,
         price: data.val().price,
         address: data.val().title
-      })
-    })
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -144,17 +158,28 @@ export default class EditSpot extends React.Component {
         <ScreenHeader navigation={this.props.navigation} />
         <KeyboardAvoidingView behavior="padding" style={styles.body}>
           <View style={styles.headerContent}>
-            <Text>Edit Parking Spot</Text>
+            <Text style={styles.title}>Edit Parking Spot</Text>
           </View>
-          <Text>{this.state.address}</Text>
+          <Text style={styles.title}>{this.state.address}</Text>
           <View style={styles.content}>
-           
-            { (this.state.image ?  <Image style={{alignSelf:'center',width:128,height:128,resizeMode:'contain'}} source={{uri:this.state.image}}/> :   
-            <TouchableOpacity onPress={this.pickImage}>
-              <Image style={{alignSelf:'center'}}
-                source={require('../assets/add_image.png')}
-            />
-            </TouchableOpacity> )}
+            {this.state.image ? (
+              <Image
+                style={{
+                  alignSelf: "center",
+                  width: 128,
+                  height: 128,
+                  resizeMode: "contain"
+                }}
+                source={{ uri: this.state.image }}
+              />
+            ) : (
+              <TouchableOpacity onPress={this.pickImage}>
+                <Image
+                  style={{ alignSelf: "center" }}
+                  source={require("../assets/add_image.png")}
+                />
+              </TouchableOpacity>
+            )}
             <TextInput
               underlineColorAndroid="transparent"
               returnKeyType={"next"}
@@ -167,7 +192,7 @@ export default class EditSpot extends React.Component {
               }}
               style={styles.inputField}
               onChangeText={text => this.setState({ description: text })}
-              value={this.state.description + ''}
+              value={this.state.description + ""}
             />
             <TextInput
               underlineColorAndroid="transparent"
@@ -176,25 +201,25 @@ export default class EditSpot extends React.Component {
                 this.price = input;
               }}
               onChangeText={text => this.setState({ price: text })}
-              value={this.state.price + ''}
+              value={this.state.price + ""}
             />
           </View>
           <Button
-            style={styles.button}
+            buttonStyle={styles.button}
             onPress={() => this.updateSpot(this.getSpot())}
             title="Save Changes"
             // color="blue"
             accessibilityLabel="Add a parking spot"
           />
           <Button
-            style={[styles.button,{marginBottom:30}]}
+            buttonStyle={[styles.button, { marginBottom: 30 }]}
             onPress={() => this.deleteSpot()}
             title="Delete"
             // color="blue"
             accessibilityLabel="Delete this parking spot"
           />
           <Button
-            style={styles.button}
+            buttonStyle={styles.button}
             onPress={() => this.toggleRented()}
             title="Toggle On/Off"
             // color="blue"
@@ -209,9 +234,9 @@ export default class EditSpot extends React.Component {
 const styles = StyleSheet.create({
   body: {
     backgroundColor: "#424242",
-    height: Dimensions.get('window').height,
+    height: Dimensions.get("window").height,
     alignItems: "center",
-    color:"white"
+    color: "white"
   },
   inputField: {
     height: 40,
@@ -226,14 +251,13 @@ const styles = StyleSheet.create({
     borderColor: "black",
     fontSize: 15,
     alignItems: "flex-start",
-    color:"white"
-
+    color: "white"
   },
   button: {
     width: 300,
-    color: "blue",
     elevation: 0,
-    marginBottom:50
+    marginBottom: 50,
+    backgroundColor: "#2f2f2f"
   },
   headerContent: {
     padding: 30,
@@ -245,6 +269,9 @@ const styles = StyleSheet.create({
     height: 300
     // flex: 1,
     // justifyContent: 'center'
+  },
+  title: {
+    color: "#FFFFFF"
   }
   // content: {
   //   flex:1,
@@ -252,4 +279,3 @@ const styles = StyleSheet.create({
   //   paddingLeft:5
   // }
 });
-

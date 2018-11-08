@@ -57,11 +57,7 @@ export default class OrderHistory extends React.Component {
           </CardItem>
           <CardItem style={styles.card} bordered>
             <Body>
-              <Text style={styles.body}>
-                Address: {order.address}
-                {"\n"}
-                Duration: {order.duration}
-              </Text>
+              <Text style={styles.body}>Address: {order.address}</Text>
             </Body>
           </CardItem>
           <CardItem style={styles.card} footer bordered>
