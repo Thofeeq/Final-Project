@@ -1,10 +1,10 @@
 # STABLE
 
-A Parking rental app designed to combat expensive downtown parking. Stable allows users to rent out their unused downtown parking spot for extra revenue. 
+A Parking rental app designed to combat expensive downtown parking. Stable allows users to rent out their unused downtown parking spot for extra revenue. Created using React-Native, Firebase and Expo. Final project for Lighthouse Labs Bootcamp.
 
 ## Final Product
 
-
+![](docs/images.gif)
 
 ## Dependencies
 
