@@ -4,11 +4,11 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Button,
   KeyboardAvoidingView
 } from "react-native";
 import { Container } from "native-base";
 import ScreenHeader from "../Components/ScreenHeader";
+import { Button } from "react-native-elements";
 
 import firebase from "../Firebase";
 
@@ -22,48 +22,52 @@ export default class EditProfile extends React.Component {
       phone_number: "",
       license_plate: "",
       car_size: "",
-      stripe_id: ''
+      stripe_id: ""
     };
   }
 
   updateUser(newUser) {
     let user = firebase.auth().currentUser;
-  
-    firebase.database().ref('users/' + user.uid).set({
-      first_name: newUser.first_name,
-      last_name: newUser.last_name,
-      email: newUser.email,
-      phone_number: newUser.phone_number,
-      license_plate: newUser.license_plate,
-      car_size: newUser.car_size,
-      stripe_id: this.state.stripe_id
-    }).then(() => {
-      console.log('profile updated successfully')
-      if (newUser.email !== user.email) {
-        user.updateEmail(newUser.email).then(() => {
-          console.log('email updated successfully')
-        }).catch(() => {
-          console.log('update email failed')
-          
-        })
-      }
-      this.props.navigation.navigate('Dashboard');
-    }).catch(() => {
-      console.log('error updating profile')
-    });
 
+    firebase
+      .database()
+      .ref("users/" + user.uid)
+      .set({
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        email: newUser.email,
+        phone_number: newUser.phone_number,
+        license_plate: newUser.license_plate,
+        car_size: newUser.car_size,
+        stripe_id: this.state.stripe_id
+      })
+      .then(() => {
+        console.log("profile updated successfully");
+        if (newUser.email !== user.email) {
+          user
+            .updateEmail(newUser.email)
+            .then(() => {
+              console.log("email updated successfully");
+            })
+            .catch(() => {
+              console.log("update email failed");
+            });
+        }
+        this.props.navigation.navigate("Dashboard");
+      })
+      .catch(() => {
+        console.log("error updating profile");
+      });
   }
 
   componentDidMount() {
     this._isMounted = true;
     const user_id = firebase.auth().currentUser.uid;
-    let user = firebase.database().ref(`users/${user_id}`)
+    let user = firebase.database().ref(`users/${user_id}`);
 
     // populate form with currents users data
-    user.once('value').then((data) => {
-      
+    user.once("value").then(data => {
       this.setState({
-        
         first_name: data.val().first_name,
         last_name: data.val().last_name,
         email: data.val().email,
@@ -71,20 +75,19 @@ export default class EditProfile extends React.Component {
         license_plate: data.val().license_plate,
         car_size: data.val().car_size,
         stripe_id: data.val().stripe_id
-      })
-    })
+      });
+    });
   }
 
   render() {
-
     // form for updating user profile
     return (
-      <Container>
-        <KeyboardAvoidingView behavior="padding">
+      <Container style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
           <ScreenHeader navigation={this.props.navigation} />
           <View style={styles.body}>
             <View style={styles.headerContent}>
-              <Text>Edit Profile</Text>
+              <Text style={styles.title}>Edit Profile</Text>
             </View>
             <View style={styles.content}>
               <TextInput
@@ -162,13 +165,12 @@ export default class EditProfile extends React.Component {
                 onChangeText={text => this.setState({ car_size: text })}
                 value={this.state.car_size}
               />
-              
             </View>
             <Button
               style={styles.button}
+              color="#2f2f2f"
               onPress={() => this.updateUser(this.state)}
               title="Save Changes"
-              // color="blue"
               accessibilityLabel="Change User Profile"
             />
           </View>
@@ -180,7 +182,7 @@ export default class EditProfile extends React.Component {
 
 const styles = StyleSheet.create({
   body: {
-    backgroundColor: "white",
+    backgroundColor: "#3c3c3c",
     height: 800,
     alignItems: "center"
   },
@@ -192,20 +194,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     margin: 10,
+    backgroundColor: "#8a8a8a",
     padding: 5
   },
   button: {
     width: 300,
-    color: "blue"
+    borderRadius: 45
   },
   headerContent: {
     padding: 30,
     // fontSize: 10,
     alignItems: "center"
+  },
+  title: {
+    color: "white"
   }
-  // content: {
-  //   flex:1,
-  //   alignItems:'flex-start',
-  //   paddingLeft:5
-  // }
 });

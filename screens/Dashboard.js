@@ -89,6 +89,7 @@ export default class Dashboard extends React.Component {
             <List>
               {list.map(item => (
                 <ListItem
+                  activeScale={0.95}
                   containerStyle={styles.listItem}
                   titleStyle={styles.listItemContent}
                   key={item.title}
