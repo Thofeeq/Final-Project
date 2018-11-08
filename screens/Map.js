@@ -288,12 +288,12 @@ class Map extends Component {
           <MapView
             style={styles.map}
             customMapStyle={mapStyle}
-            region={{
-              latitude: this.state.location.lat,
-              longitude: this.state.location.lng,
-              latitudeDelta: 0.07,
-              longitudeDelta: 0.07
-            }}
+            // region={{
+            //   latitude: this.state.location.lat,
+            //   longitude: this.state.location.lng,
+            //   latitudeDelta: 0.07,
+            //   longitudeDelta: 0.07
+            // }}
             initialRegion={{
               latitude: 51.0478,
               longitude: -114.0593,
