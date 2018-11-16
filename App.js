@@ -11,6 +11,7 @@ import { BlurView } from "expo";
 
 import firebase from "firebase";
 
+// Development mode only, hides state errors
 console.ignoredYellowBox = ["Setting a timer"];
 console.disableYellowBox = true;
 
@@ -29,6 +30,7 @@ export default class App extends React.Component {
 
   _isMounted = false;
 
+  // Authenticate user
   authenticate(userObject) {
     if (this._isMounted) {
       this.setState({
@@ -39,6 +41,7 @@ export default class App extends React.Component {
     }
   }
 
+  // Logout user
   logout() {
     if (this._isMounted) {
       firebase
@@ -57,6 +60,7 @@ export default class App extends React.Component {
     }
   }
 
+  // Checks if user is logged in
   isLoggedIn() {
     let userEmail = firebase.auth().currentUser.email;
     firebase
@@ -92,10 +96,13 @@ export default class App extends React.Component {
   }
 
   componentWillUnmount() {
-    //Warning fix
+    // TODO: fix setState warnings
+    // Warning fix attempt
     this._isMounted = false;
   }
 
+  // Renders loading screen while login info is fetched. 
+  // Renders either Logged in version of app or logged out, depending on user auth status.
   render() {
     console.log("Rendering main");
 
@@ -171,5 +178,3 @@ const styles = StyleSheet.create({
     marginBottom: 20
   }
 });
-
-console.disableYellowBox = true;
