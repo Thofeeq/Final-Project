@@ -1,17 +1,22 @@
+// React and react native components
 import React, { Component } from "react";
 import { StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import PopupDialog, { SlideAnimation } from "react-native-popup-dialog";
+import { Container } from "native-base";
+
+// Components
 import InfoCard from "../Components/InfoCard";
 import ConfirmCard from "../Components/ConfirmCard";
 import StatusCard from "../Components/StatusCard";
 import CurrentRental from "../Components/CurrentRental";
 import HeaderNavigation from "../Components/HeaderNavigation.js";
+
+// Google Maps API
 import { MapAutoComplete } from "react-native-google-places-autocomplete/MapAutoComplete";
 import { GOOGLE_MAPS_API } from "react-native-dotenv";
 
-import { Container } from "native-base";
-
+// Firebase
 import firebase from "../Firebase.js";
 
 class Map extends Component {
@@ -48,13 +53,17 @@ class Map extends Component {
 
   _isMounted = false;
 
+  // Get location for Google maps autocomplete
   getLocation(locationObject) {
     this.setState({ location: locationObject });
   }
+
+  // Ready status
   _onMapReady = () => {
     console.log("map ready");
   };
 
+  // Sets spot info to state, used by info popup
   markerPressed(data) {
     console.log(data);
     this.setState({
@@ -78,6 +87,7 @@ class Map extends Component {
     );
   }
 
+  // Creates order
   writeOrderData() {
     firebase
       .database()
@@ -102,6 +112,7 @@ class Map extends Component {
       });
   }
 
+  // Function that handles new parking order.
   parkButtonPressed() {
     let userId = firebase.auth().currentUser.uid;
     firebase
@@ -125,6 +136,7 @@ class Map extends Component {
       });
   }
 
+  // Confirms user is done parking, updates order in firebase, sets parking spot available again
   parkingConfirmComplete() {
     this.refs.confirmCard.resetButton();
     let currentUser = firebase.auth().currentUser;
@@ -145,11 +157,13 @@ class Map extends Component {
     }
   }
 
+  // Shows status popup
   statusPressed() {
     console.log("status pressed");
     this.statusPopup.show();
   }
 
+  // Checkout function, charges user through Stripe
   checkout() {
     this.refs.statusCard.resetButton();
     this.refs.currentRent.clearTimer();
@@ -169,10 +183,10 @@ class Map extends Component {
       .set(null);
   }
 
+  // Logic to find if user is renting a spot, makes sure user can see if they are renting a spot if app crashes/user navigates away
   componentDidMount() {
     this._isMounted = true;
 
-    // console.log('did mount', this._isMounted);
     if (this._isMounted) {
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
@@ -226,9 +240,9 @@ class Map extends Component {
     }
   }
 
+  // Closes firebase connection when component unmounts
   componentWillUnmount() {
     this._isMounted = false;
-    // console.log('unmount', this._isMounted);
     firebase.database().ref.off();
   }
 
@@ -288,6 +302,7 @@ class Map extends Component {
           <MapView
             style={styles.map}
             customMapStyle={mapStyle}
+            // TODO: Fix screen movement when another user toggles spot
             // region={{
             //   latitude: this.state.location.lat,
             //   longitude: this.state.location.lng,
@@ -389,6 +404,7 @@ class Map extends Component {
 
 export default Map;
 
+// Styles
 const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject
@@ -417,6 +433,7 @@ const styles = StyleSheet.create({
   }
 });
 
+// Custom map styling. Taken from https://mapstyle.withgoogle.com/
 const mapStyle = [
   {
     elementType: "geometry",
