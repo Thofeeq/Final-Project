@@ -1,3 +1,4 @@
+// React and React native components
 import React from "react";
 import {
   View,
@@ -7,9 +8,12 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import { Container } from "native-base";
-import ScreenHeader from "../Components/ScreenHeader";
 import { Button } from "react-native-elements";
 
+// Header
+import ScreenHeader from "../Components/ScreenHeader";
+
+// Firebase
 import firebase from "../Firebase";
 
 export default class EditProfile extends React.Component {
@@ -26,6 +30,9 @@ export default class EditProfile extends React.Component {
     };
   }
 
+  // TODO: add change email function
+
+  // Function to update user data in Firebase realtime db
   updateUser(newUser) {
     let user = firebase.auth().currentUser;
 
@@ -203,7 +210,6 @@ const styles = StyleSheet.create({
   },
   headerContent: {
     padding: 30,
-    // fontSize: 10,
     alignItems: "center"
   },
   title: {

@@ -1,9 +1,10 @@
+// React and React native components
 import React from "react";
 import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
-
-import { Button } from "react-native-elements";
-import { List, ListItem } from "react-native-elements";
+import { Button, List, ListItem } from "react-native-elements";
 import { Container } from "native-base";
+
+// Header with nav
 import HeaderNavigation from "../Components/HeaderNavigation.js";
 
 export default class Dashboard extends React.Component {
