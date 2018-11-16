@@ -1,3 +1,4 @@
+// React and react native components
 import React from "react";
 import {
   Container,
@@ -8,8 +9,12 @@ import {
   Text,
   Body
 } from "native-base";
-import ScreenHeader from "../Components/ScreenHeader";
 import { StyleSheet } from "react-native";
+
+// Header
+import ScreenHeader from "../Components/ScreenHeader";
+
+//Firebase
 import firebase from "../Firebase";
 
 export default class OrderHistory extends React.Component {
@@ -76,6 +81,7 @@ export default class OrderHistory extends React.Component {
   }
 }
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#3c3c3c"
