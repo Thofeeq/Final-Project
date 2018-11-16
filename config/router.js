@@ -1,3 +1,4 @@
+// React and react native components
 import React from "react";
 import {
   createDrawerNavigator,
@@ -29,11 +30,13 @@ import Login from "../Components/Login.js";
 import Register from "../Components/RegisterForm";
 import EditSpot from "../screens/EditSpot";
 import ForgotPassword from "../Components/ForgotPassword";
+
 // database connection
 import firebase from "firebase";
 import startFirebase from "./startFirebase";
 startFirebase(firebase);
 
+// Root navigator
 export const RootStack = createStackNavigator(
   {
     Home: {
@@ -70,6 +73,7 @@ export const RootStack = createStackNavigator(
   }
 );
 
+// Drawer Navigator
 const CustomDrawerContentComponent = props => (
   <Container>
     <Header style={styles.drawerStyle}>
@@ -104,6 +108,7 @@ const CustomDrawerContentComponent = props => (
   </Container>
 );
 
+// Logged out Drawer navigator
 const CustomDrawerContentComponentLoggedOut = props => (
   <Container>
     <Header style={styles.drawerStyle}>
@@ -120,6 +125,7 @@ const CustomDrawerContentComponentLoggedOut = props => (
   </Container>
 );
 
+// Main app 
 export const MyApp = createDrawerNavigator(
   {
     Map: {
@@ -146,6 +152,7 @@ export const MyApp = createDrawerNavigator(
   }
 );
 
+// Logged out app
 export const LoggedOutApp = createDrawerNavigator(
   {
     Home: {
@@ -170,35 +177,11 @@ export const LoggedOutApp = createDrawerNavigator(
   }
 );
 
-// export const SignedIn = createDrawerNavigator(
-//   {
-//     Home: {
-//       screen: RootStack
-//     },
-//     Dashboard: {
-//       screen: Dashboard
-//     },
-//     Signout: {
-//       screen: Login
-//     },
-//     Help: {
-//       screen: Help
-//     }
-//   },
-//   {
-//     InitalRouteName: "Home",
-//     contentComponent: CustomDrawerContentComponent,
-//     drawerOpenRoute: "DrawerOpen",
-//     drawerCloseRoute: "DrawerClose",
-//     drawerToggleRoute: "DrawerToggle"
-//   }
-// );
-
+// Styles
 const styles = StyleSheet.create({
   drawerImage: {
     height: 150,
     width: 150,
-    //borderRadius: 75,
     marginLeft: 50,
     marginTop: 24,
     backgroundColor: '#3c3c3c'
@@ -209,8 +192,6 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: '#3c3c3c',
-    // color: 'white',
-    // fontWeight: '100'
   },
   drawerItems: {
     color: '#F5F5F5',
