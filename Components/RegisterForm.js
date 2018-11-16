@@ -287,6 +287,7 @@ export default class Register extends React.Component {
   }
 }
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -328,7 +329,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    // fontFamily: "sans-serif-thin"
   },
   title: {
     fontWeight: "bold",

@@ -1,7 +1,9 @@
+// React and react native components
 import React, { Component } from "react";
 import { StyleSheet, Text } from "react-native";
 import { Icon, Button, Container, Header, Content, Left } from "native-base";
 
+// Main app header
 export default class ScreenHeader extends Component {
   render() {
     return (
@@ -23,6 +25,7 @@ export default class ScreenHeader extends Component {
   }
 }
 
+// Styles
 const styles = StyleSheet.create({
   header: {
     height: 75,

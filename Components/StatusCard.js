@@ -1,8 +1,13 @@
+// React and react native components
 import React from "react";
 import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
 import { Button } from 'react-native-elements';
 import Map from "../screens/Map.js";
+
+// Firebase
 import firebase from "../Firebase.js";
+
+// Payment API
 import { doPayment } from "../Api.js";
 
 class StatusCard extends React.Component {
@@ -89,6 +94,7 @@ class StatusCard extends React.Component {
 
 export default StatusCard;
 
+// Styles
 const styles = StyleSheet.create({
   popup: {
     display: "flex",
