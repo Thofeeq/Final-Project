@@ -1,3 +1,4 @@
+// React and React native components
 import React from "react";
 import {
   ScrollView,
@@ -12,10 +13,17 @@ import {
   Container,
   TouchableOpacity
 } from "react-native";
-import { ImagePicker } from "expo";
-import ScreenHeader from "../Components/ScreenHeader";
-import firebase from "../Firebase.js";
 import { Button } from "react-native-elements";
+
+// Header
+import ScreenHeader from "../Components/ScreenHeader";
+
+// Firebase
+import firebase from "../Firebase.js";
+
+import { ImagePicker } from "expo";
+
+
 export default class EditSpot extends React.Component {
   constructor(props) {
     super(props);
@@ -43,6 +51,7 @@ export default class EditSpot extends React.Component {
 
   _isMounted = false;
 
+  // Function which can select new image for parking spot
   pickImage() {
     _pickImage = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -60,6 +69,7 @@ export default class EditSpot extends React.Component {
     _pickImage();
   }
 
+  // Get spot data from state
   getSpot() {
     let spot = {
       description: this.state.description,
@@ -68,6 +78,7 @@ export default class EditSpot extends React.Component {
     return spot;
   }
 
+  // Delete parking spot
   deleteSpot() {
     firebase
       .database()
@@ -76,6 +87,8 @@ export default class EditSpot extends React.Component {
     this.props.navigation.push("MySpots");
   }
 
+  // Allows user to turn spot on/off
+  // TODO: show rent status to user
   toggleRented() {
     let bool;
     let spot_bool = firebase
@@ -92,6 +105,7 @@ export default class EditSpot extends React.Component {
     }
   }
 
+  // Upload image from image picker to firebase db
   async uploadImageAsync(uri, spot_id) {
     console.log("URI", uri);
     const response = await fetch(uri);
@@ -106,6 +120,7 @@ export default class EditSpot extends React.Component {
     });
   }
 
+  // Function to edit spot in Firebase
   updateSpot(spot) {
     const current_spot = this.props.navigation.state.params.spot;
 
@@ -137,6 +152,7 @@ export default class EditSpot extends React.Component {
     const spot_id = this.props.navigation.state.params.spot.key;
     let spot = firebase.database().ref(`spots/${spot_id}`);
 
+    // Finds current spot from Firebase
     spot.once("value").then(data => {
       this.setState({
         description: data.val().description,
@@ -148,10 +164,9 @@ export default class EditSpot extends React.Component {
 
   componentWillUnmount() {
     this._isMounted = false;
-    // firebase.database().ref.off();
-    // console.log(this._isMounted);
   }
 
+  // Renders form which allows user to edit their spot
   render() {
     return (
       <ScrollView>
@@ -208,21 +223,18 @@ export default class EditSpot extends React.Component {
             buttonStyle={styles.button}
             onPress={() => this.updateSpot(this.getSpot())}
             title="Save Changes"
-            // color="blue"
             accessibilityLabel="Add a parking spot"
           />
           <Button
             buttonStyle={[styles.button, { marginBottom: 30 }]}
             onPress={() => this.deleteSpot()}
             title="Delete"
-            // color="blue"
             accessibilityLabel="Delete this parking spot"
           />
           <Button
             buttonStyle={styles.button}
             onPress={() => this.toggleRented()}
             title="Toggle On/Off"
-            // color="blue"
             accessibilityLabel="Toggle this parking spot on/off"
           />
         </KeyboardAvoidingView>
@@ -231,6 +243,7 @@ export default class EditSpot extends React.Component {
   }
 }
 
+// Styles
 const styles = StyleSheet.create({
   body: {
     backgroundColor: "#424242",
@@ -261,21 +274,13 @@ const styles = StyleSheet.create({
   },
   headerContent: {
     padding: 30,
-    // fontSize: 10,
     alignItems: "center"
   },
   map: {
     width: 300,
     height: 300
-    // flex: 1,
-    // justifyContent: 'center'
   },
   title: {
     color: "#FFFFFF"
   }
-  // content: {
-  //   flex:1,
-  //   alignItems:'flex-start',
-  //   paddingLeft:5
-  // }
 });
