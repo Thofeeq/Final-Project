@@ -1,3 +1,4 @@
+// React and react native components
 import React from "react";
 import {
   Container,
@@ -19,8 +20,8 @@ import {
 } from "react-native";
 import ScreenHeader from "../Components/ScreenHeader";
 
+// Firebase
 import firebase from "../Firebase.js";
-
 const baseUrl =
   "https://firebasestorage.googleapis.com/v0/b/parker-7a5ba.appspot.com/o/lot_images%2F";
 const endUrl = "%2Flot.jpg?alt=media";
@@ -40,11 +41,13 @@ export default class MySpots extends React.Component {
     this.receivedUpdate = this.receivedUpdate.bind(this);
   }
 
+  // TODO: Render changes when spot is rented.
   receivedUpdate = foo => {
     console.log("in the received update");
     this.setState({ foo });
   };
 
+  // Finds current users spots in firebase
   componentDidMount() {
     let user_id = firebase.auth().currentUser.uid;
 
@@ -60,7 +63,7 @@ export default class MySpots extends React.Component {
             spots.push(newSpot);
           }
         });
-        // ?????
+        // Adds spots to state
         this.setState({ spots: spots });
       });
   }
@@ -69,6 +72,7 @@ export default class MySpots extends React.Component {
     // firebase.database().ref.off();
   }
 
+  // Renders card for each spot that a user has created
   render() {
     self = this;
     let id = 0;
@@ -158,6 +162,7 @@ export default class MySpots extends React.Component {
   }
 }
 
+// Styles
 const styles = StyleSheet.create({
   picture: {
     flexDirection: "column",
