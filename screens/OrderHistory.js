@@ -1,3 +1,4 @@
+// React and react native components
 import React from "react";
 import {
   Container,
@@ -9,8 +10,11 @@ import {
   Body
 } from "native-base";
 import { StyleSheet } from "react-native";
+
+// Header
 import ScreenHeader from "../Components/ScreenHeader";
 
+// Firebase
 import firebase from "../Firebase";
 
 export default class OrderHistory extends React.Component {
@@ -22,13 +26,15 @@ export default class OrderHistory extends React.Component {
     firebase;
   }
 
+  // Function to find total price for an order
   orderTotal(duration, price) {
     return (duration / 60) * price;
   }
 
   componentDidMount() {
-    let uid = firebase.auth().currentUser.uid;
+    let uid = firebase.auth().currentUser.uid; // current user
 
+    // finds a users past orders from firebase db
     firebase
       .database()
       .ref("/orders/")
@@ -46,6 +52,7 @@ export default class OrderHistory extends React.Component {
       });
   }
 
+  // Renders a card for each order associated with user in db
   render() {
     let id = 0;
     let orderHistory = this.state.orders.map(order => {
@@ -78,6 +85,7 @@ export default class OrderHistory extends React.Component {
   }
 }
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#3c3c3c"
