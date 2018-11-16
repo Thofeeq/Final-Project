@@ -7,6 +7,8 @@ import { Container } from "native-base";
 import HeaderNavigation from "../Components/HeaderNavigation.js";
 
 export default class Dashboard extends React.Component {
+
+  // Vehicle icons for different size user vehicle.
   vehicleSize(size) {
     switch (size) {
       case "small":
@@ -20,12 +22,9 @@ export default class Dashboard extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // console.log(firebase.apps.length);
-    // console.log(firebase.auth());
-  }
-
   render() {
+
+    // List of navigation options for List below
     const list = [
       {
         title: "Order History",
@@ -54,6 +53,7 @@ export default class Dashboard extends React.Component {
       }
     ];
 
+    // User info from Firebase, as well as user navigation options
     return (
       <Container>
         <HeaderNavigation navigation={this.props.navigation} />
@@ -75,7 +75,6 @@ export default class Dashboard extends React.Component {
                 source={{ uri: this.vehicleSize(this.props.user.car_size) }}
               />
               <Button
-                // buttonStyle={styles.bottom_button}
                 buttonStyle={styles.bottom_button}
                 raise={true}
                 title="EDIT PROFILE"
@@ -84,7 +83,7 @@ export default class Dashboard extends React.Component {
               />
             </View>
           </View>
-
+          {/* Navigation List */}
           <View style={styles.body}>
             <List>
               {list.map(item => (
@@ -95,7 +94,6 @@ export default class Dashboard extends React.Component {
                   key={item.title}
                   title={item.title}
                   onPress={() => this.props.navigation.navigate(item.navigate)}
-                  // leftIcon={{name: item.icon}}
                 />
               ))}
             </List>
@@ -106,6 +104,7 @@ export default class Dashboard extends React.Component {
   }
 }
 
+// Styles
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "#424242"
@@ -118,9 +117,6 @@ const styles = StyleSheet.create({
   avatar: {
     width: 80,
     height: 80,
-    // borderRadius: 63,
-    // borderWidth: 4,
-    // borderColor: "white",
     marginBottom: 10
   },
   name: {
@@ -138,7 +134,6 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: "#424242",
     height: 500
-    // alignItems:'center',
   },
   item: {
     flexDirection: "row"
@@ -164,15 +159,11 @@ const styles = StyleSheet.create({
     color: "#FFFFFF"
   },
   bottom_button: {
-    // position: 'absolute',
     backgroundColor: "#212121",
     width: 350,
     fontFamily: "sans-serif-thin"
-    // marginTop: 290,
-    // bottom: 0,
   },
   map: {
-    // ...StyleSheet.absoluteFillObject,
     marginTop: 65
   },
   listItem: {
