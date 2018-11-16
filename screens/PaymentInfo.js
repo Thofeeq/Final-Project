@@ -1,3 +1,4 @@
+// React and react native components
 import React from "react";
 import {
   StyleSheet,
@@ -8,16 +9,22 @@ import {
   Keyboard
 } from "react-native";
 import { Button } from 'react-native-elements';
-import { CreditCardInput } from "react-native-credit-card-input";
-import ScreenHeader from "../Components/ScreenHeader";
 import { Container } from "native-base";
 
+// Header
+import ScreenHeader from "../Components/ScreenHeader";
+
+// Visual CC input package
+import { CreditCardInput } from "react-native-credit-card-input";
+
+// Stripe API
 import { createCust } from "../Api.js";
 import { STRIPE_PKEY } from "react-native-dotenv";
 import Stripe from "react-native-stripe-api";
-import firebase from "../Firebase.js";
-
 const client = new Stripe(STRIPE_PKEY);
+
+// Firebase
+import firebase from "../Firebase.js";
 
 let formData = null;
 
@@ -37,6 +44,7 @@ export default class PaymentInfo extends React.Component {
   _isMounted = false;
   userEmail = null;
 
+  // When CC becomes valid, allows user to submit to Stripe
   formOnChange(form) {
     if (this._isMounted) {
       if (form.valid === true) {
@@ -54,6 +62,7 @@ export default class PaymentInfo extends React.Component {
     }
   }
 
+  // Submits user and CC to Stripe
   submitPaymentInfo() {
     const currentUser = firebase.auth().currentUser;
     // Create a Stripe token with new card info & create a customer
@@ -88,6 +97,7 @@ export default class PaymentInfo extends React.Component {
       });
   }
 
+  // Keyboards functionality
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -118,6 +128,7 @@ export default class PaymentInfo extends React.Component {
     });
   }
 
+  // Renders form to add CC to user account
   render() {
     return (
       <Container style={styles.container}>
@@ -141,6 +152,7 @@ export default class PaymentInfo extends React.Component {
   }
 }
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#3c3c3c"
