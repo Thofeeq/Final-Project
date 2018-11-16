@@ -1,3 +1,4 @@
+// React and React native components
 import React from "react";
 import {
   StyleSheet,
@@ -19,15 +20,22 @@ import {
   Icon,
   Title
 } from "native-base";
+
+// Header
 import ScreenHeader from "../Components/ScreenHeader";
+
+// Email API
 import email from "react-native-email";
 
 export default class Help extends React.Component {
+  
+  // Sends email to Stable support
   handleEmail = () => {
     const to = "reportparking@gmail.com";
-    email(to, { subject: "Issue With Pete Parker App" }).catch(console.error);
+    email(to, { subject: "Issue With Stable App" }).catch(console.error);
   };
 
+  // Renders FAQ, to be updated as user questions come in
   render() {
     return (
       <View style={styles.container}>
@@ -191,6 +199,7 @@ export default class Help extends React.Component {
   }
 }
 
+// Styles
 const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
