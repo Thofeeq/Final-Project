@@ -1,3 +1,4 @@
+// React components
 import React from "react";
 import {
   ScrollView,
@@ -14,15 +15,19 @@ import {
 } from "react-native";
 import { Button } from 'react-native-elements';
 import MapView, { Marker } from "react-native-maps";
-// import ImagePicker from 'react-native-image-crop-picker';
+
 import { ImagePicker } from "expo";
+
+// Global header
 import ScreenHeader from "../Components/ScreenHeader";
+
+// Firebase
 import firebase from "../Firebase.js";
+
+// Google Maps API's
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_MAPS_API } from "react-native-dotenv";
-// var googleMapsClient = createClient({
-// key: GOOGLE_MAPS_API
-// });
+
 
 export default class AddASpot extends React.Component {
   constructor(props) {
@@ -51,9 +56,8 @@ export default class AddASpot extends React.Component {
 
   _isMounted = false;
 
+  // Fetches spot from state, used to save new spot
   getSpot() {
-    // console.log("We here")
-    // getLocation(this.parseAddress(this.state.address));
     let spot = {
       id: this.state.spot_id,
       title: this.state.address,
@@ -64,19 +68,21 @@ export default class AddASpot extends React.Component {
       owner: this.state.uid,
       is_rented: false
     };
-    // console.log("THE SPOT IS ", spot)
     return spot;
   }
 
+  // Function to get location for Google Maps Autocomplete
   getLocation(formattedAddress, locationObject) {
     this.setState({ address: formattedAddress, location: locationObject });
   }
 
+  // Address Parser
   parseAddress(address) {
     var parsedAddress = address.split(" ").join("+");
     return parsedAddress;
   }
 
+  // Function to save spot to Firebase realtime db
   addSpot(spot) {
     self = this;
     async function uploadImageAsync(uri, spot_id) {
@@ -109,6 +115,7 @@ export default class AddASpot extends React.Component {
     }
   }
 
+  // Function to select image from phone
   pickImage() {
     _pickImage = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -127,16 +134,17 @@ export default class AddASpot extends React.Component {
   }
 
   componentDidMount() {
+    // TODO: setState error fix
     this._isMounted = true;
-    // console.log('did mount', this._isMounted)
+    // sets current user
     this.setState({ uid: firebase.auth().currentUser.uid });
   }
 
   componentWillUnmount() {
     this._isMounted = false;
-    // console.log(this._isMounted);
   }
 
+  // Renders screen which allows users to Add a parking spot for rent.
   render() {
     return (
       <ScrollView style={styles.fullBody} keyboardShouldPersistTaps='always'>
@@ -172,7 +180,6 @@ export default class AddASpot extends React.Component {
               }}
               showsMyLocationButton={true}
               showsUserLocation={true}
-              // onPress={this.removeCard}
             >
               <Marker
                 coordinate={{
@@ -273,7 +280,6 @@ export default class AddASpot extends React.Component {
               this.addSpot(this.getSpot());
             }}
             title="Save Changes"
-            // color="blue"
             accessibilityLabel="Add a parking spot"
           />
         </KeyboardAvoidingView>
@@ -282,6 +288,7 @@ export default class AddASpot extends React.Component {
   }
 }
 
+// Screen styles
 const styles = StyleSheet.create({
   body: {
     backgroundColor: "#424242",
@@ -294,7 +301,6 @@ const styles = StyleSheet.create({
     color: '#FAFAFA',
     height: 40,
     width: Dimensions.get("window").width * 0.8,
-    // borderColor: "black",
     borderWidth: 1,
     borderRadius: 10,
     alignItems: "center",
@@ -312,7 +318,6 @@ const styles = StyleSheet.create({
   },
   headerContent: {
     padding: 30,
-    // fontSize: 10,
     alignItems: "center"
   },
   map: {
@@ -321,16 +326,5 @@ const styles = StyleSheet.create({
     height: 300,
     margin: 10,
     padding: 5
-    // flex: 1,
-    // justifyContent: 'center'
   },
-  // fullBody: {
-  //   marginBottom: 48,
-  //   backgroundColor: '#424242'
-  // }
-  // content: {
-  //   flex:1,
-  //   alignItems:'flex-start',
-  //   paddingLeft:5
-  // }
 });
